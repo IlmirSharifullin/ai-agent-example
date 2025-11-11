@@ -1,0 +1,11 @@
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
+SERVICE_ACCOUNT_FILENAME = os.getenv("SERVICE_ACCOUNT_FILENAME")
+GOOGLE_SHEET_URL = os.getenv("GOOGLE_SHEET_URL")
+GOOGLE_SHEET_NAME = os.getenv("GOOGLE_SHEET_NAME")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+
+TELEGRAM_BOT_API_TOKEN = os.getenv("TELEGRAM_BOT_API_TOKEN")
