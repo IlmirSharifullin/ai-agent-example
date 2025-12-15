@@ -3,3 +3,8 @@ venv
 .env
 
 .idea
+
+logs
+civil-tube-348819-501c1f3bcc34.json
+
+test.py

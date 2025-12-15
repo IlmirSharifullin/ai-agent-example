@@ -1,13 +1,19 @@
 import asyncio
+import logging
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart, Command
 
 from settings import *
-from agent import add_to_excel_sheet, get_expenses
+
+from agent import Agent
 
 bot = Bot(TELEGRAM_BOT_API_TOKEN)
 dp = Dispatcher()
+agent = Agent()
+agent.start_periodic_metrics(interval_minutes=5)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
 
 @dp.message(CommandStart())
 async def start(message: types.Message):
@@ -16,7 +22,7 @@ async def start(message: types.Message):
 
 @dp.message(Command('expenses'))
 async def expenses(message: types.Message):
-    df = get_expenses()
+    df = agent.get_expenses()
 
     total = sum(map(int, df['Сумма']))
     await message.answer(f'Общая сумма: {total}')
@@ -39,7 +45,7 @@ async def expenses(message: types.Message):
 @dp.message()
 async def default(message: types.Message):
     try:
-        add_to_excel_sheet(message.text)
+        agent.add_to_excel_sheet(message.text)
     except Exception as e:
         await message.answer(f'Произошла ошибка: {e}')
     else:
